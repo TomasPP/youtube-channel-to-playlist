@@ -1,0 +1,14 @@
+https://developers.google.com/youtube/v3/getting-started#quota
+A simple read operation that only retrieves the ID of each returned resource has a cost of approximately 1 unit.
+A write operation has a cost of approximately 50 units.
+A video upload has a cost of approximately 1600 units.
+
+cost of queries for each operation in google cloud console
+0queries get_authenticated_service
+3queries get_channel_upload_playlist_id
+69queries get_playlist_video_ids() from channel with 1090videos.
+~50queries add_video_to_playlist to add just one video
+
+1500 queries for 3mb of traffic. 63 http requests. adding 27 video to existing 200 videos playlist from channel with 1000 videos.
+
+set HTTPS_PROXY=http://127.0.0.1:8888

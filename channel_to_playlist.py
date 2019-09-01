@@ -44,7 +44,10 @@ def get_authenticated_service(args):
     credentials = storage.get()
     if credentials is None or credentials.invalid:
         credentials = run_flow(flow, storage, args)
-    return build("youtube", "v3", http=credentials.authorize(httplib2.Http()))
+
+    fiddler_proxy_traffic_testing = False # if true set env variable: set HTTPS_PROXY=http://127.0.0.1:8888
+    http = httplib2.Http(disable_ssl_certificate_validation=fiddler_proxy_traffic_testing)
+    return build("youtube", "v3", http=credentials.authorize(http))
 
 
 def get_channel_upload_playlist_id(youtube, channel_id):
@@ -137,6 +140,18 @@ def _parse_args(args):
         dest="published_before",
         help="Only add videos published before this date",
     )
+
+    argparser.add_argument(
+        "--noauth_local_webserver",
+        action='store_true',
+        default=False,
+        help='Do not run a local web server.',
+    )
+    argparser.add_argument(
+        '--logging_level', default='ERROR',
+        choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
+        help='Set the logging level of detail.')
+
     argparser.add_argument("channel_id", help="id of channel to copy videos from")
     argparser.add_argument("playlist_id", help="id of playlist to add videos to")
     parsed = argparser.parse_args(args)
