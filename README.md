@@ -1,3 +1,5 @@
+Forked project includes workaround described here: https://github.com/RobbieClarken/youtube-channel-to-playlist/issues/5#issuecomment-524624562
+
 # YouTube Channel to Playlist
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/RobbieClarken/youtube-channel-to-playlist/blob/master/LICENSE)
