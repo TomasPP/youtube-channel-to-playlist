@@ -45,7 +45,7 @@ def get_authenticated_service(args):
     if credentials is None or credentials.invalid:
         credentials = run_flow(flow, storage, args)
 
-    fiddler_proxy_traffic_testing = False # if true set env variable: set HTTPS_PROXY=http://127.0.0.1:8888
+    fiddler_proxy_traffic_testing = False  # if true set env variable: set HTTPS_PROXY=http://127.0.0.1:8888
     http = httplib2.Http(disable_ssl_certificate_validation=fiddler_proxy_traffic_testing)
     return build("youtube", "v3", http=credentials.authorize(http))
 
