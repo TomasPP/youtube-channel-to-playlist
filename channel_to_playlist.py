@@ -43,6 +43,7 @@ def get_authenticated_service(args):
     storage = Storage(".channel_to_playlist-oauth2-credentials.json")
     credentials = storage.get()
     if credentials is None or credentials.invalid:
+        # credentials = run_flow(flow, storage, None) works and --noauth_local_webserver --logging_level are not needed
         credentials = run_flow(flow, storage, args)
 
     fiddler_proxy_traffic_testing = False  # if true set env variable: set HTTPS_PROXY=http://127.0.0.1:8888
@@ -163,6 +164,8 @@ def main():
 
     youtube = get_authenticated_service(args)
     channel_playlist_id = get_channel_upload_playlist_id(youtube, args.channel_id)
+    # print(channel_playlist_id)
+    # return
     video_ids = get_playlist_video_ids(
         youtube,
         channel_playlist_id,
