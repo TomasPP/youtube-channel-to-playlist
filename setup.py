@@ -9,6 +9,7 @@ setup(
     author_email="robbie.clarken@gmail.com",
     url="https://github.com/RobbieClarken/youtube-channel-to-playlist",
     py_modules=["channel_to_playlist"],
-    install_requires=["google-api-python-client>=1.6.7,<1.7.0", "python-dateutil>=2.7.5,<3", "jsonpath-ng>=1.5,<2", "requests>=2.23,<3"],
+    install_requires=["google-api-python-client>=1.6.7,<1.7.0", "python-dateutil>=2.7.5,<3", "jsonpath-ng>=1.5,<2",
+                      "requests>=2.23,<3", "httplib2>=0.17.3,<1"],
     entry_points={"console_scripts": ["channel_to_playlist=channel_to_playlist:main"]},
 )

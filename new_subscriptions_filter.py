@@ -10,8 +10,7 @@ from http import HTTPStatus
 import util
 import dateutil.parser
 import httplib2
-from apiclient.discovery import build
-from apiclient.errors import HttpError
+import apiclient
 from dateutil import tz
 from jsonpath_ng import parse
 from oauth2client.client import flow_from_clientsecrets
@@ -50,7 +49,7 @@ def get_authenticated_service():
 
     fiddler_proxy_traffic_testing = False  # if true set env variable: set HTTPS_PROXY=http://127.0.0.1:8888
     http = httplib2.Http(disable_ssl_certificate_validation=fiddler_proxy_traffic_testing)
-    return build("youtube", "v3", http=credentials.authorize(http))
+    return apiclient.discovery.build("youtube", "v3", http=credentials.authorize(http))
 
 
 def get_videos():
@@ -228,7 +227,7 @@ def add_video_to_playlist(youtube, playlist_id, video_id, position=None):
             part="snippet",
             body=body,
         ).execute()
-    except HttpError as exc:
+    except apiclient.errors.HttpError as exc:
         if exc.resp.status == HTTPStatus.CONFLICT:
             # watch-later playlist don't allow duplicates
             raise VideoAlreadyInPlaylistError()
@@ -283,7 +282,8 @@ def get_ytube_html():
     cookie_file = 'cookies.txt'
     url = 'https://www.youtube.com/feed/subscriptions'
     agent_header = 'User-Agent'
-    agent_value = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'
+    agent_value = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)' \
+                  ' Chrome/73.0.3683.86 Safari/537.36'
     headers = {agent_header: agent_value}
     cookie_jar = util.YoutubeDLCookieJar(cookie_file)
     cookie_jar.load(ignore_discard=True, ignore_expires=True)
@@ -318,6 +318,7 @@ def test2():
     write_str_to_file(json_file_name, json_str)
 
     # json_file_name = 'youtube.json'
+    # noinspection SpellCheckingInspection
     playlist_id = 'PLTgIihucics9gK7wE_AcgUCXipPMARoiJ'
     allow_duplicates = False
     result = get_unfinished_videos(json_str)
