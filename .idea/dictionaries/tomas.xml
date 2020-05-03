@@ -3,6 +3,9 @@
     <words>
       <w>apiui</w>
       <w>cookiejar</w>
+      <w>dateutil</w>
+      <w>httplib</w>
+      <w>jsonpath</w>
       <w>khtml</w>
       <w>ytube</w>
     </words>

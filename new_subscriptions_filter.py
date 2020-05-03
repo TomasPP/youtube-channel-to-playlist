@@ -24,7 +24,7 @@ from oauth2client.tools import run_flow
 # Please ensure that you have enabled the YouTube Data API for your project.
 # DEVELOPER_KEY = "...."
 
-CHANNEL_ID = "UCRrN04dF5AkuOng2kh23ptg"
+CHANNEL_ID = "UC..."
 CREDENTIAL_FILE = "client_secrets.json"
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
@@ -319,7 +319,7 @@ def test2():
 
     # json_file_name = 'youtube.json'
     # noinspection SpellCheckingInspection
-    playlist_id = 'PLTgIihucics9gK7wE_AcgUCXipPMARoiJ'
+    playlist_id = 'PL...'
     allow_duplicates = False
     result = get_unfinished_videos(json_str)
     if result.is_empty():
