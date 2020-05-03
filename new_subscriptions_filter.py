@@ -239,7 +239,14 @@ class VideoAlreadyInPlaylistError(Exception):
     """ video already in playlist """
 
 
-def add_to_playlist(youtube, playlist_id, video_ids, added_videos_file, add_duplicates):
+def add_to_playlist(youtube, playlist_id, video_ids, added_videos_file, add_duplicates, add_top_of_list=False):
+    position = None
+    if add_top_of_list:
+        video_ids = video_ids.copy()
+        # reverse list and insert all videos at position 0
+        video_ids.reverse()
+        position = 0
+
     added_videos = []
     existing_videos = get_playlist_video_ids(youtube, playlist_id)
     count = len(video_ids)
@@ -249,8 +256,7 @@ def add_to_playlist(youtube, playlist_id, video_ids, added_videos_file, add_dupl
         sys.stdout.write("\rAdding video {} of {}".format(video_num, count))
         sys.stdout.flush()
         try:
-            # adding videos in reverse order always at position 0
-            add_video_to_playlist(youtube, playlist_id, video_id, 0)
+            add_video_to_playlist(youtube, playlist_id, video_id, position)
             added_videos.append(video_id)
         except VideoAlreadyInPlaylistError:
             if add_duplicates:
@@ -319,7 +325,6 @@ def test2():
         print('ERROR: html contains no videos.')
         return
     video_ids = result.get_unfinished_ids()
-    video_ids.reverse()
 
     print('videos to add', len(video_ids))
     # print(video_ids)
@@ -332,7 +337,7 @@ def test2():
         video_ids = [vid_id for vid_id in video_ids if vid_id not in added_video_ids]
 
     with open(added_videos_filename, "a") as f:
-        add_to_playlist(youtube, playlist_id, video_ids, f, allow_duplicates)
+        add_to_playlist(youtube, playlist_id, video_ids, f, allow_duplicates, add_top_of_list=True)
 
 
 def main():
